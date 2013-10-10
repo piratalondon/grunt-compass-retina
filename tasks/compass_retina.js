@@ -28,10 +28,8 @@ module.exports = function(grunt) {
 
       // Concat specified files.
       var src = f.src.filter(function(filepath) {
-        var ext = path.extname(filepath);
-        console.log(path.basename(filepath, ext));
         // Warn on and remove invalid source files (if nonull was set).
-        if (!grunt.file.exists(filepath.basepath)) {
+        if (!grunt.file.exists(filepath)) {
           grunt.log.warn('Source file "' + filepath + '" not found.');
           return false;
         } else {
@@ -39,7 +37,10 @@ module.exports = function(grunt) {
         }
       }).map(function(filepath) {
         // Read file source.
-        return grunt.file.read(filepath);
+        var ext = path.extname(filepath);
+        console.log(path.basename(filepath, ext));
+        grunt.log.writeln('Reading SASS file at "' + f.dest + '"');
+        return grunt.file.read(f.dest);
       }).join(grunt.util.normalizelf(options.separator));
 
       // Handle options.
