@@ -2,7 +2,7 @@
  * grunt-compass-retina
  * https://github.com/piratalondon/grunt-compass-retina
  *
- * Copyright (c) 2013 Anthony Hughes
+ * Copyright (c) 2013 Pirata London
  * Licensed under the MIT license.
  */
 
@@ -33,19 +33,20 @@ module.exports = function(grunt) {
       default_options: {
         options: {
         },
-        files: {
-          'tmp/default_options': ['test/fixtures/testing', 'test/fixtures/123'],
-        },
+        files: [{
+          dest: 'test/fixtures/_sprites.scss', src: 'test/fixtures/img/**/*.png'
+        }],
       },
-      custom_options: {
-        options: {
-          separator: ': ',
-          punctuation: ' !!!',
-        },
-        files: {
-          'tmp/custom_options': ['test/fixtures/testing', 'test/fixtures/123'],
-        },
-      },
+      // custom_options: {
+      //   options: {
+      //     sprites: 'test/fixtures/sprites',
+      //     separator: ': ',
+      //     punctuation: ' !!!',
+      //   },
+      //   files: {
+      //     'tmp/custom_options': ['test/fixtures/testing', 'test/fixtures/123'],
+      //   },
+      // },
     },
 
     // Unit tests.

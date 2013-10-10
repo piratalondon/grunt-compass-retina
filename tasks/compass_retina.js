@@ -8,6 +8,8 @@
 
 'use strict';
 
+var path = require('path');
+
 module.exports = function(grunt) {
 
   // Please see the Grunt documentation for more information regarding task
@@ -16,16 +18,20 @@ module.exports = function(grunt) {
   grunt.registerMultiTask('compass_retina', 'Uses class-based system for referring to retina assets', function() {
     // Merge task-specific and/or target-specific options with these defaults.
     var options = this.options({
-      punctuation: '.',
-      separator: ', '
+      // punctuation: '.',
+      // separator: ', '
     });
 
     // Iterate over all specified file groups.
     this.files.forEach(function(f) {
+      console.log(f.src);
+
       // Concat specified files.
       var src = f.src.filter(function(filepath) {
+        var ext = path.extname(filepath);
+        console.log(path.basename(filepath, ext));
         // Warn on and remove invalid source files (if nonull was set).
-        if (!grunt.file.exists(filepath)) {
+        if (!grunt.file.exists(filepath.basepath)) {
           grunt.log.warn('Source file "' + filepath + '" not found.');
           return false;
         } else {
