@@ -1,9 +1,4 @@
-/*
-    e.g.
-    $icons: sprite-map('../img/sprites/icons/*.png');
-    $icons-2x: sprite-map('../img/sprites/icons-2x/*.png');
-    
-    .class {
-        @include get-sprite($icons, $icons-2x, img-name);
-    }
-*/
+$icons: sprite-map('../img/sprites/icons/*.png');
+$icons-2x: sprite-map('../img/sprites/icons-2x/*.png');
+.grunt-logo-2 { @include get-sprite($icons, $icons-2x, grunt-logo-2);}
+.grunt-logo-1 { @include get-sprite($icons, $icons-2x, grunt-logo-1);}
