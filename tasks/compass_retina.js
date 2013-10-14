@@ -18,26 +18,25 @@ module.exports = function(grunt) {
   grunt.registerMultiTask('compass_retina', 'Uses class-based system for referring to retina assets', function() {
     // Merge task-specific and/or target-specific options with these defaults.
     var options = this.options({
-      // punctuation: '.',
-      // separator: ', '
+      rel_img_path: '',
     });
 
-    var spriteSetupTemplate =  "$<%= dir %>: sprite-map('../img/sprites/icons/*.png');\n$<%= dir %>-2x: sprite-map('../img/sprites/icons-2x/*.png');";
+    var spriteSetupTemplate =  "$<%= map %>: sprite-map('<%= rel_img_path %>/*.png');\n$<%= map %>-2x: sprite-map('<%= rel_img_path %>-2x/*.png');";
     var spriteTemplate = 
-".<%= name %> {" + 
-" @include get-sprite($<%= dir %>, $<%= dir %>-2x, <%= name %>);" +
+".<%= img_name %> {" + 
+" @include get-sprite($<%= map %>, $<%= map %>-2x, <%= img_name %>);" +
 "}";
 
     // Iterate over all specified file groups.
     this.files.forEach(function(f) {
       // get all the images
-      var sprites = {};
+      var sprites_dir = {};
       var scss = f.src.filter(function(filepath) {
         // Warn on and remove invalid source files (if nonull was set).
         if (!grunt.file.exists(filepath)) {
           grunt.log.warn('Source file "' + filepath + '" not found.');
           return false;
-        } else if (filepath.indexOf("2x") !== -1) {
+        } else if (filepath.indexOf('2x') !== -1) {
           return false;
         } else {
           return true;
@@ -45,28 +44,29 @@ module.exports = function(grunt) {
       }).map(function(filepath) {
         // Read file source.
         var ext = path.extname(filepath);
-        var dir = path.dirname(filepath);
-        var parent = grunt.util._.last(dir.split(path.sep));
-        var name = path.basename(filepath, ext);
+        var map = path.dirname(filepath);
+        var parent = grunt.util._.last(map.split(path.sep));
+        var img_name = path.basename(filepath, ext);
         grunt.log.writeln('Reading SASS file at "' + f.dest + '"');
-        if (!sprites[parent]) {
-          sprites[parent] = {};
-          sprites[parent]["dir"] = parent;
-          sprites[parent]["results"] = [];
+        if (!sprites_dir[parent]) {
+          sprites_dir[parent] = {};
+          sprites_dir[parent]['map'] = parent;
+          sprites_dir[parent]['rel_img_path'] = options.rel_img_path + parent;
+          sprites_dir[parent]['results'] = [];
         }
 
         // get info for an individual sprite
-        sprites[parent]["results"].push({dir: parent, name: name});
+        sprites_dir[parent]['results'].push({map: parent, img_name: img_name});
         return true;
       });
 
-      var output = "";
+      var output = '';
       var spriteClassTemplateCompiled = grunt.util._.template(spriteSetupTemplate);
       var spriteTemplateCompiled = grunt.util._.template(spriteTemplate);
-      for(var parent in sprites) {
-        output += spriteClassTemplateCompiled(sprites[parent]) + "\n";
-        for (var i = sprites[parent]['results'].length - 1; i >= 0; i--) {
-          output += spriteTemplateCompiled(sprites[parent]['results'][i]) + "\n";
+      for(var parent in sprites_dir) {
+        output += spriteClassTemplateCompiled(sprites_dir[parent]) + '\n';
+        for (var i = sprites_dir[parent]['results'].length - 1; i >= 0; i--) {
+          output += spriteTemplateCompiled(sprites_dir[parent]['results'][i]) + '\n';
         }    
       }
 

@@ -32,12 +32,13 @@ module.exports = function(grunt) {
     compass_retina: {
       default_options: {
         options: {
+          rel_img_path: '../img/sprites/'
         },
         files: [{
           dest: 'test/fixtures/_sprites.scss', src: 'test/fixtures/img/**/*.png'
         }],
       },
-      // custom_options: {
+      //custom_options: {
       //   options: {
       //     sprites: 'test/fixtures/sprites',
       //     separator: ': ',
@@ -46,7 +47,7 @@ module.exports = function(grunt) {
       //   files: {
       //     'tmp/custom_options': ['test/fixtures/testing', 'test/fixtures/123'],
       //   },
-      // },
+      //},
     },
 
     // Unit tests.
