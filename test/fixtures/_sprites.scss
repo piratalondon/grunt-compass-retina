@@ -2,3 +2,6 @@ $icons: sprite-map('../img/sprites/icons/*.png');
 $icons-2x: sprite-map('../img/sprites/icons-2x/*.png');
 .grunt-logo-2 { @include get-sprite($icons, $icons-2x, grunt-logo-2);}
 .grunt-logo-1 { @include get-sprite($icons, $icons-2x, grunt-logo-1);}
+$sprite1: sprite-map('../img/sprites/icons/*.png');
+$sprite1-2x: sprite-map('../img/sprites/icons-2x/*.png');
+.grunt-logo { @include get-sprite($sprite1, $sprite1-2x, grunt-logo);}
